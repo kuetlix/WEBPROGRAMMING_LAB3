@@ -2,22 +2,26 @@ import{ Student}from './models.js';
 import{ fetchStudents}from './database.js';
 import{ calculateClassAverage, findTopStudent, filterStudents}from './analytics.js';
 
-console.log("Loading student data from server...");
+console.log("Fetching data from database...");
 
 fetchStudents((students_data) =>{
-  console.log("Records retrieved correctly!\n");
+  console.log("Data received!\n");
 
   const students = students_data.map(data => new Student(data.id, data.name, data.courses));
 
   console.log("Testing Immutability:");
   console.log(`Original ID: ${students[0].id}`);
   console.log("Attempting to change ID to 999...");
-  
-  students[0].id = 999; 
-  
+
+  try {
+    students[0].id = 999; 
+  } catch (error) {
+ 
+  }
+
   console.log(`Final ID: ${students[0].id} (Success: ID did not change)\n`);
 
-  console.log(" - Analytics Report - ");
+  console.log("--- Analytics Report ---");
 
   const average_101 = calculateClassAverage(students, 101);
   console.log(`Class Average for Course 101: ${average_101}`);
